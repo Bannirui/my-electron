@@ -1,0 +1,24 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
+  "include": [
+    "src/renderer/**/*"
+  ],
+  "exclude": ["node_modules", "dist", "build"],
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/renderer/src/*"
+      ]
+    },
+    "noEmit": false,            // 允许编译输出
+    "skipLibCheck": true,       // 跳过库的类型检查
+    "noImplicitAny": false,      // 允许隐式any类型
+    "strict": false,            // 关闭严格模式
+    "checkJs": false,           // 关闭JS文件的类型检查
+    "isolatedModules": false,   // 允许import/export但不强制export type
+    "noUnusedLocals": false,    // 允许未使用的变量
+    "noUnusedParameters": false // 允许未使用的参数
+  }
+}
