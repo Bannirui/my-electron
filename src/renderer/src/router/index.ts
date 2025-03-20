@@ -23,7 +23,7 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
     name: 'RedirectWrap',
     children: [
       {
-        path: '/redirect/:path(.*)',
+        path: '/redirect/:path(.*)', // 通配所有路径
         name: 'Redirect',
         component: () => import('@/views/Redirect/Redirect.vue'),
         meta: {}
