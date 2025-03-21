@@ -5,3 +5,5 @@ out
 .eslintcache
 *.log*
 build
+
+package-lock.json
