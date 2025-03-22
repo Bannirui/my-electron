@@ -122,14 +122,15 @@ const createLogoCode = (canvasRef: HTMLCanvasElement) => {
     borderRadius = 8,
     logoRadius = 0
   } = logoOptions
-  const logoSrc = isString(props.logo) ? props.logo : props.logo.src
+  // 类型断言
+  const logoSrc = isString(props.logo) ? props.logo : (props.logo as Partial<QrcodeLogo>).src
   const logoWidth = canvasWidth * logoSize
   const logoXY = (canvasWidth * (1 - logoSize)) / 2
   const logoBgWidth = canvasWidth * (logoSize + borderSize)
   const logoBgXY = (canvasWidth * (1 - logoSize - borderSize)) / 2
 
   const ctx = canvasRef.getContext('2d')
-  if (!ctx) return
+  if (!ctx) return null
 
   // logo 底色
   canvasRoundRect(ctx)(logoBgXY, logoBgXY, logoBgWidth, logoBgWidth, borderRadius)

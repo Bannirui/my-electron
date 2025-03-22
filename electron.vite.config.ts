@@ -1,28 +1,42 @@
 import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import { defineConfig, externalizeDepsPlugin, bytecodePlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from "@vitejs/plugin-vue-jsx";
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import UnoCSS from "unocss/vite";
 import { viteMockServe } from "vite-plugin-mock";
 
+const publicDir: string = resolve(__dirname, 'resources');
+const envDir: string = resolve(__dirname);
 // 开发模式
 const isDev = process.env.NODE_ENV !== 'production'
 
 export default defineConfig( {
   main: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
   },
   preload: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
   },
   renderer: {
+    publicDir: publicDir,
+    // 环境变量的文件目录 .env文件
+    envDir: envDir,
+    // 环境变量前缀
+    envPrefix: 'VITE_',
     resolve: {
       alias: {
         '@': resolve('src/renderer/src')
       }
     },
     plugins: [
-      vue(),
+      vue({
+        script: {
+          // 开启defineModel
+          defineModel: true
+        }
+      }),
+      vueJsx(),
       // 处理svg
       createSvgIconsPlugin({
         // 指定SVG图标存放目录
@@ -56,6 +70,7 @@ export default defineConfig( {
       port: 5173,
       proxy: {
         '/api': {
+          // 前置url
           target: isDev ? 'http://127.0.0.1:8000' : 'https://api.prod.com',
           changeOrigin: true, // 修改请求头中的Origin 避免跨域问题
           rewrite: (path) => path.replace(/^\/api/, '') // 重写URL去掉/api前缀

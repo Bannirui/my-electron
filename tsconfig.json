@@ -33,5 +33,5 @@
     ]
   },
   "include": ["src/renderer/src", "src/renderer/types/**/*.d.ts", "src/renderer/mock/**/*.ts"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "out"]
 }
